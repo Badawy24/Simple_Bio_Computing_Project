@@ -15,7 +15,7 @@ def ind(lb,page):
 def hide_ind():
     ext_ind.config(bg=side_bar_bg)
     seq_opr_ind.config(bg=side_bar_bg)
-    sec3_ind.config(bg=side_bar_bg)
+    bad_char_ind.config(bg=side_bar_bg)
     sec4_ind.config(bg=side_bar_bg)
     sec5_ind.config(bg=side_bar_bg)
     sec6_ind.config(bg=side_bar_bg)
@@ -34,6 +34,10 @@ def extract_data():
 def seq_opration():
     from seq_operation import seq_oper
     seq_oper(display_frame)
+
+def bad_char():
+    from bad_char import bad_character
+    bad_character(display_frame)
     
 def menu_page():
     meun_frame = Frame(display_frame)
@@ -90,11 +94,11 @@ seq_opr_ind = Label(options_side_bar,text='',background=side_bar_bg)
 seq_opr_ind.place(x=3,y=y_section+increment,width=ind_w,height=50)
 seq_opr_btn.config(command=lambda: ind(seq_opr_ind,seq_opration))
 
-sec3_btn = Button(options_side_bar,text="Extract Data From File",font=("bold 13"),bg=side_bar_bg,bd=0,wraplength=100,cursor="hand2")
-sec3_btn.place(x=15,y=y_section+increment*2)
-sec3_ind = Label(options_side_bar,text='',background=side_bar_bg)
-sec3_ind.place(x=3,y=y_section+increment*2,width=ind_w,height=50)
-sec3_btn.config(command=lambda: ind(sec3_ind,menu_page))
+bad_char_btn = Button(options_side_bar,text="Bad Characters",font=("bold 13"),bg=side_bar_bg,bd=0,wraplength=100,cursor="hand2")
+bad_char_btn.place(x=15,y=y_section+increment*2)
+bad_char_ind = Label(options_side_bar,text='',background=side_bar_bg)
+bad_char_ind.place(x=3,y=y_section+increment*2,width=ind_w,height=50)
+bad_char_btn.config(command=lambda: ind(bad_char_ind,bad_char))
 
 sec4_btn = Button(options_side_bar,text="Extract Data From File",font=("bold 13"),bg=side_bar_bg,bd=0,wraplength=100,cursor="hand2")
 sec4_btn.place(x=15,y=y_section+increment*3)
