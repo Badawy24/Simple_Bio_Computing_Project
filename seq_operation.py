@@ -9,9 +9,9 @@ def seq_oper(display_frame):
         btn_style.configure('TButton',width=15, height =10,font=('Arial 12 bold'),wraplength=100,foreground="red")
 
         # ===> layout
-        w = 700
+        w = 650
         h = 100
-        m = 20
+        m = 10
         layout_bg = "#629c80"
         part_0 = Frame(display_frame, width=600,height=70,bg= layout_bg)
         part_1 = Frame(display_frame, width=w,height=50,bg= layout_bg)
@@ -31,7 +31,7 @@ def seq_oper(display_frame):
 
         seqLabel = ttk.Label(part_1, text="Enter Sequence:",font=("Arial 14 bold"),background=layout_bg)
         seqLabel.place(x=20,y=10)
-        entryseq = ttk.Entry(part_1,width=45,font=('Arial',14))
+        entryseq = ttk.Entry(part_1,width=40,font=('Arial',14))
         entryseq.place(x=190,y=10)
 
         upload_label_seq = Label(part_2, text="Choose File:",font=('Arial 12 bold'),background=layout_bg)
@@ -45,17 +45,17 @@ def seq_oper(display_frame):
         GC_Content_btn.place(x=10,y=10)
 
         Complement_btn = ttk.Button(part_3,text="\nComplement\n",cursor="hand2")
-        Complement_btn.place(x=180,y=10)
+        Complement_btn.place(x=170,y=10)
 
         Reverse_btn = ttk.Button(part_3,text="\nReverse\n",cursor="hand2")
-        Reverse_btn.place(x=350,y=10)
+        Reverse_btn.place(x=330,y=10)
         
         Reverse_Complement_btn = ttk.Button(part_3,text="    Reverse Complement",padding=10,cursor="hand2")
-        Reverse_Complement_btn.place(x=530,y=10)
+        Reverse_Complement_btn.place(x=490,y=10)
 
-        seq_before = ttk.Label(part_4, text="",wraplength=700,font=("Arial 14 bold"),background=layout_bg,width=500)
+        seq_before = ttk.Label(part_4, text="",wraplength=650,font=("Arial 14 bold"),background=layout_bg,width=500)
         seq_before.pack()
-        seq_after = ttk.Label(part_4, text="",wraplength=700,font=("Arial 14 bold"),background=layout_bg,foreground="red",width=500)
+        seq_after = ttk.Label(part_4, text="",wraplength=650,font=("Arial 14 bold"),background=layout_bg,foreground="red",width=500)
         seq_after.pack()
 
         GC_Content_btn.config(command= lambda: content_btn(seq_priority().upper()))

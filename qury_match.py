@@ -3,10 +3,10 @@ from tkinter import ttk # Have Layout Of Screen [Button, Label, TextBox, .......
 from tkinter import filedialog   
 import numpy as np
 import pandas as pd
-import pandastable as pt
+import bisect
+from pandastable import Table, TableModel
 
-
-def bad_character(display_frame):
+def qury(display_frame):
         # ======> Button Style
         btn_style = ttk.Style()
         btn_style.theme_use('vista')
@@ -32,13 +32,18 @@ def bad_character(display_frame):
         part_5.place(x=m,y=h*4.2)
 
         # ===> Title
-        page_title= Label(part_0, text="Bad Characters",font=('Arial 20 bold'),background=layout_bg,pady=20)
+        page_title= Label(part_0, text="Quray Match Index",font=('Arial 20 bold'),background=layout_bg,pady=20)
         page_title.pack()
 
         sub_seqLabel = ttk.Label(part_1, text="Enter Sub Sequence:",font=("Arial 14 bold"),background=layout_bg)
-        sub_seqLabel.place(x=20,y=10)
-        entry_sub_seq = ttk.Entry(part_1,width=40,font=('Arial',14))
+        sub_seqLabel.place(x=10,y=10)
+        entry_sub_seq = ttk.Entry(part_1,width=20,font=('Arial',14))
         entry_sub_seq.place(x=230,y=10)
+        
+        k_Label = ttk.Label(part_1, text="Enter K:",font=("Arial 14 bold"),background=layout_bg)
+        k_Label.place(x=490,y=10)
+        entry_k = ttk.Entry(part_1,width=5,font=('Arial',14))
+        entry_k.place(x=580,y=10)
 
         upload_label_seq = Label(part_2, text="Choose File:",font=('Arial 12 bold'),background=layout_bg)
         upload_btn_seq = ttk.Button(part_2, text="Upload File",cursor="hand2",width=10)
@@ -47,8 +52,8 @@ def bad_character(display_frame):
         upload_btn_seq.place(x=120,y=10)
         file_name_seq.place(x=220,y=10)
 
-        bad_char_result_btn = ttk.Button(part_3,text="\nView Result\n",cursor="hand2")
-        bad_char_result_btn.place(x=490,y=10)
+        qry_match_result_btn = ttk.Button(part_3,text="\nView Result\n",cursor="hand2")
+        qry_match_result_btn.place(x=490,y=10)
 
 
         indx_match = ttk.Label(part_4, text="",font=("Arial 14 bold"),background=layout_bg)
@@ -57,21 +62,16 @@ def bad_character(display_frame):
         table_match = ttk.Label(part_5, text="",font=("Arial 14 bold"),background=layout_bg)
         table_match.pack()
 
-        bad_char_result_btn.config(command= lambda: result_sub_seq_btn(extract_seq(file_name_seq.cget("text")).upper(),entry_sub_seq.get()))
-        # bad_char_result_btn.config(command= lambda: result_sub_seq_btn("TTTGTTTCGAGCCTTACCGACACTGATGAGCCAAGAGGAACTTGGAGGCACCCAGGAATTTCACCCGGGTCGACCTGGGCGGCTAGGAGCCGTGCACAGGGCGTCGCTGTGGAGCGAGCCTGGCCTCCAAGGGGCCTGGAGGCGAAACTAACGGTCTGTTGGGACCACTCGGACCATCAGTCATCGTGCTCCGGCAGCTT","GCGTCGCTGTGGAG"))
+        qry_match_result_btn.config(command= lambda: result_sub_seq_btn(extract_seq(file_name_seq.cget("text")).upper(),entry_sub_seq.get(),entry_k.get()))
+        # qry_match_result_btn.config(command= lambda: result_sub_seq_btn("TTTGTTTCGAGCCTTACCGACACTGATGAGCCAAGAGGAACTTGGAGGCACCCAGGAATTTCACCCGGGTCGACCTGGGCGGCTAGGAGCCGTGCACAGGGCGTCGCTGTGGAGCGAGCCTGGCCTCCAAGGGGCCTGGAGGCGAAACTAACGGTCTGTTGGGACCACTCGGACCATCAGTCATCGTGCTCCGGCAGCTT","GCGTCGCTGTGGAG"))
         upload_btn_seq.config(command= lambda: uploadFiles())
     # =============== Button Function ===========================
-        def result_sub_seq_btn(seq, sub_seq):
-            res, table ,rows = Badchars(seq, sub_seq)
+        def result_sub_seq_btn(seq, sub_seq,k):
+            index = IndexSorted(seq,3)
+            res = query(seq,sub_seq,index)
             indx_match.configure(text="Index of Matching: "+str(res)+"\n")
-            cols = return_cols(sub_seq)
-            tbl = pd.DataFrame(table,dtype=int,columns= cols, index=rows)
 
-            dTDa1 = Toplevel()
-            dTDa1.title('Result Data Frame')
-            dTDa1.geometry('900x500')
-            dTDaPT = pt.Table(dTDa1, dataframe=tbl, showtoolbar=True, showstatusbar=True)
-            dTDaPT.show()
+
         def uploadFiles():
             filename = filedialog.askopenfilename(initialdir = "/",
                 title = "Select a File",
@@ -87,40 +87,23 @@ def bad_character(display_frame):
             s=l[1][:-1]
             return s
         
-        
-        def return_cols(sub_seq):
-            col = []
-            col[:0] = sub_seq
-            return col
         # =============== Bio Computing Function ===========================
 
-        def Badchars(seq,sub_seq):
-            table=np.zeros([4,len(sub_seq)])
-            row=["A","C","G","T"]
-            for i in range (4):
-                num=-1
-                for j in range (len(sub_seq)):
-                    if row[i]==sub_seq[j]:
-                        table[i,j]=-1
-                        num=-1
-                    else:
-                        num+=1
-                        table[i,j]=num
-            x=-1
-            i=0
-            while(i<len(seq)-len(sub_seq)+1):
-                if sub_seq==seq[i:i+len(sub_seq)]:
-                    x=i
-                
-                else:
-                    for j in range(len(sub_seq)-1,-1,-1):
-                        if seq[i+j] != sub_seq[j]:
-                            k=row.index(seq[i+j])
-                            i+=table[k,j]
-                            break
-                        
-                i=int(i+1)
-                    
-            return x , table, row
+        def IndexSorted(seq,k):
+            index = []
+            for i in range(len(seq)-k+1):
+                index.append((seq[i:i+k], i))
+            index.sort() 
+            return index
 
-            
+        def query(t,p,index):
+            keys = [r[0] for r in index]
+            st = bisect.bisect_left(keys,p[:len(keys[0])])
+            en = bisect.bisect(keys,p[:len(keys[0])])
+            hits = index[st:en] 
+            l=[h[1] for h in hits ]
+            offsets=[]
+            for i in l:
+                if t[i:i+len(p)]==p:
+                    offsets.append(i)
+            return offsets
