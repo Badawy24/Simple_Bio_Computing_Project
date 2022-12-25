@@ -63,11 +63,25 @@ def sufix_arr():
     from sufix_arr import suffix_arr
     suffix_arr(display_frame)
 
-def menu_page():
-    meun_frame = Frame(display_frame)
-    lb = Label(meun_frame,text="meun Page")
-    lb.pack()
-    meun_frame.pack(pady=20)
+def boyr_sufx():
+    from boyer_sufx import boyr_sufix
+    boyr_sufix(display_frame)
+
+def fibo():
+    from fibo_num import fibo_index
+    fibo_index(display_frame)
+
+def lcs():
+    from lcs import LCS
+    LCS(display_frame)
+
+def LCS_score():
+    from lcs_score import LCS_score
+    LCS_score(display_frame)
+
+def dist():
+    from dist import dist_seq
+    dist_seq(display_frame)
 
 
 
@@ -151,33 +165,33 @@ boyr_btn = Button(options_side_bar,text="Boyer Suffix",font=("bold 13"),bg=side_
 boyr_btn.place(x=15,y=y_section+increment*7)
 boyr_ind = Label(options_side_bar,text='',background=side_bar_bg)
 boyr_ind.place(x=x_section,y=y_section+increment*7,width=ind_w,height=ind_h)
-boyr_btn.config(command=lambda: ind(boyr_ind,menu_page))
+boyr_btn.config(command=lambda: ind(boyr_ind,boyr_sufx))
 
-fibo_btn = Button(options_side_bar,text="Fibonacci Sequence",font=("bold 13"),bg=side_bar_bg,bd=0,cursor="hand2")
+fibo_btn = Button(options_side_bar,text="Fibonacci Number",font=("bold 13"),bg=side_bar_bg,bd=0,cursor="hand2")
 fibo_btn.place(x=15,y=y_section+increment*8)
 fibo_ind = Label(options_side_bar,text='',background=side_bar_bg)
 fibo_ind.place(x=x_section,y=y_section+increment*8,width=ind_w,height=ind_h)
-fibo_btn.config(command=lambda: ind(fibo_ind,menu_page))
+fibo_btn.config(command=lambda: ind(fibo_ind,fibo))
 
 
 lcs_btn = Button(options_side_bar,text="LCS",font=("bold 13"),bg=side_bar_bg,bd=0,cursor="hand2")
 lcs_btn.place(x=15,y=y_section+increment*9)
 lcs_ind = Label(options_side_bar,text='',background=side_bar_bg)
 lcs_ind.place(x=x_section,y=y_section+increment*9,width=ind_w,height=ind_h)
-lcs_btn.config(command=lambda: ind(lcs_ind,menu_page))
+lcs_btn.config(command=lambda: ind(lcs_ind,lcs))
 
 
 lcs_score_btn = Button(options_side_bar,text="LCS Score",font=("bold 13"),bg=side_bar_bg,bd=0,cursor="hand2")
 lcs_score_btn.place(x=15,y=y_section+increment*10)
 lcs_score_ind = Label(options_side_bar,text='',background=side_bar_bg)
 lcs_score_ind.place(x=x_section,y=y_section+increment*10,width=ind_w,height=ind_h)
-lcs_score_btn.config(command=lambda: ind(lcs_score_ind,menu_page))
+lcs_score_btn.config(command=lambda: ind(lcs_score_ind,LCS_score))
 
 dist_btn = Button(options_side_bar,text="Distance Between Sequance",font=("bold 13"),bg=side_bar_bg,bd=0,cursor="hand2")
 dist_btn.place(x=15,y=y_section+increment*11)
 dist_ind = Label(options_side_bar,text='',background=side_bar_bg)
 dist_ind.place(x=x_section,y=y_section+increment*11,width=ind_w,height=ind_h)
-dist_btn.config(command=lambda: ind(dist_ind,menu_page))
+dist_btn.config(command=lambda: ind(dist_ind,dist))
 
 # sec13_btn = Button(options_side_bar,text="Extract Data From File",font=("bold 13"),bg=side_bar_bg,bd=0,cursor="hand2")
 # sec13_btn.place(x=15,y=y_section+increment*12)
